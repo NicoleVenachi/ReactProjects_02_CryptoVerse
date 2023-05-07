@@ -8,6 +8,7 @@ import { Link } from 'react-router-dom'
 
 //api
 import { useGetCryptosQuery } from '../services/cryptoApi'
+import { CryptoCurrencies, News } from './'
 
 //destructuro Typo y le saco Title
 const { Title } = Typography
@@ -17,12 +18,10 @@ const { Title } = Typography
 //Redux toolkit para hacer fetch de data
 function Homepage() {
 
-  const { data, isFetching } = useGetCryptosQuery();
+  //en homepage siempre traigo 10 unicamente, para alivianar el query
+  const { data, isFetching } = useGetCryptosQuery(10);
 
   const globalStats = data?.data?.stats;
-  console.log("🚀 ~ file: Homepage.jsx:23 ~ Homepage ~ globalStats:", globalStats)
-
-  console.log("🚀 ~ file: Homepage.jsx:22 ~ Homepage ~ data:", data);
 
   //si está cargando los datos, aviso
   if (isFetching) return 'Loading ....'
@@ -65,6 +64,23 @@ function Homepage() {
           />
         </Col>
       </Row>
+
+      <div className='home-heading-container'>
+        <Title level={2} className='home-title'> Top 10 Crypto currencies in the wolrd</Title>
+        <Title level={3} className='show-more'>
+          <Link to="/cryptocurrencies"> Show more </Link>
+        </Title>
+      </div>
+
+      <CryptoCurrencies simplified />
+      <div className='home-heading-container'>
+        <Title level={2} className='home-title'> Latest Crypto news </Title>
+        <Title level={3} className='show-more'>
+          <Link to="/news"> Show more </Link>
+        </Title>
+      </div>
+
+      <News simplified />
     </>
 
   )
